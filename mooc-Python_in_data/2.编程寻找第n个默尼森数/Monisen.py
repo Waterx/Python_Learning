@@ -13,31 +13,33 @@ def prime(num):
         return True
 
 
-def monisen(no):
-    count1 = 0
-    count2 = 2
-    (nop, nump) = (1, 2)  # no of P
-    newnump = 2
-    while count1 != no:
-        m = 2**nump - 1
-        if prime(m):
-            if count1 == no:
-                return m
-            count1 = count1 + 1  # ??????
+def noprime(no): # This function is to get the no. prime
+    count = 0
+    num = 2
+    while count != no:
+        if prime(num):
+            count = count + 1
+            if count == no:
+                return num
+            else:
+                num = num + 1
         else:
-            while newnump == nump:
-                count2 = count2 + 1
-                if prime(count2):
-                    newnump = count2
-                    # break
+            num = num + 1
+
+
+def monisen(no):
+    count = 0
+    nop = 1
+    while count != no:
+        m = 2 ** noprime(nop) - 1
+        if prime(m):
+            count = count + 1
+            if count == no:
+                return m
+            else:
+                nop = nop + 1
+        else:
             nop = nop + 1
-            nump = newnump
-
-
-
-
-
-
 
 
 print(monisen(int(input())))
