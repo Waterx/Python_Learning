@@ -16,3 +16,10 @@ whiten = whiten(data)
 centroids, a = kmeans(whiten, 3)
 result,_ = vq(whiten, centroids)
 print(result)
+
+# sklern
+from sklearn.cluster import KMeans
+X = whiten
+kmeans2 = KMeans(n_clusters = 3).fit(X)
+pred = kmeans2.predict(X)
+print(pred)
