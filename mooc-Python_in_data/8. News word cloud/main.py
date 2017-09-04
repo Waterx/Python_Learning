@@ -6,6 +6,8 @@ import pandas as pd
 from os import path
 from scipy.misc import imread
 import matplotlib.pyplot as plt
+
+
 def get_html_text(url):
     try:
         r = requests.get(url, headers={'user-agent': 'Mozilla/5.0'})
@@ -18,10 +20,11 @@ def get_html_text(url):
 
 def get_title(raw_text):
     # !the meaning of ?
-    raw_string = r'<a target="_blank" href="(http://news.sina.com.cn/\w/.*?)">(.*?)</a>'
+    # raw_string = r'<a target="_blank" href="(http://news.sina.com.cn/\w/.*?)">(.*?)</a>'
+    raw_string = '.shtml" target="_blank">(.*?)</a></span>(.*?)<span class="c_time">(.*)</span>'
     search_pattern = re.compile(raw_string)
     text = re.findall(search_pattern, raw_text)
-    df = pd.DataFrame(text, columns=['url', 'title'])
+    df = pd.DataFrame(text, columns=['title', 'time'])
     # df.to_excel('title.xlsx')
     return df
 
@@ -44,13 +47,13 @@ def draw_cloud(newslist):
     content = ''.join(newslist)
     d = path.dirname(__file__)
     mask_image = imread(path.join(d, "girl.png"))
-    wordcloud = WordCloud(font_path='yayuan.otf', background_color="grey",
-                         max_words=40).generate(content)
+    wordcloud = WordCloud(font_path='yayuan.otf', background_color="white",
+                         mask=mask_image, max_words=40).generate(content)
 
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.show()
-url = 'http://news.sina.com.cn/'
+url = 'http://roll.news.sina.com.cn'
 raw_text = get_html_text(url)
 df = get_title(raw_text)
 newslist = title_seg(df)
