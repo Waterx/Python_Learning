@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from lexicon import scan
 class ParserError(Exception):
     pass
 
@@ -7,9 +7,9 @@ class Sentence(object):
     
     def __init__(self, subject, verb, object):
         # remember we take ('noun', 'princess') tuples and convert them
-        self.subject = subject[1]
-        self.verb = verb[1]
-        self.object = object[1]
+        self.subject = subject[1] #主
+        self.verb = verb[1]       #谓
+        self.object = object[1]   #宾
 
 def peek(word_list):
     if word_list:
@@ -47,7 +47,7 @@ def parse_object(word_list):
 
     if next == 'noun':
         return match(word_list, 'noun')
-    if next =='direction':
+    if next == 'direction':
         return match(word_list, 'direction')
     else:
         raise ParserError("Expected a noun or direction next.")
@@ -59,6 +59,7 @@ def parse_subject(word_list, subj):
     return Sentence(subj, verb, obj)
 
 def parse_sentence(word_list):
+    word_list = scan(word_list)
     skip(word_list, 'stop')
 
     start = peek(word_list)
